@@ -1,0 +1,27 @@
+{
+  "extends": [
+    "tslint:recommended",
+    "tslint-config-standard-plus",
+    "tslint-sonarts"
+  ],
+  "linterOptions": {
+    "exclude": [
+      "lib",
+      "node_modules"
+    ]
+  },
+  "rules": {
+    "no-any": false,
+    "no-inferrable-types": false,
+    "object-literal-sort-keys": false,
+    "no-commented-out-code": false,
+    "jsdoc-format": false,
+    "max-line-length": false,
+    "strict-type-predicates": false,
+    "no-circular-imports": false,
+    "no-duplicate-string": false,
+    "no-floating-promises": false,
+    "no-console": false,
+    "quotemark": [true, "single", "jsx-double"]
+  }
+}
