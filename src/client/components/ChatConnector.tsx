@@ -8,7 +8,7 @@ interface IChatConnectorProps {
 interface IChatConnectorState {
   profile?: {
     name?: string,
-    loggedIn?: false
+    loggedIn: boolean
   },
   connected?: boolean
 }
@@ -30,28 +30,17 @@ class ChatConnector extends Component<IChatConnectorProps, IChatConnectorState> 
     }
 
     this.socket = IO(SERVER_URL)
-    this.socket.on('connected', () => {
-      this.setState({ connected: true })
-    })
   }
 
   public handleLogin = (event: SyntheticEvent): void => {
     event.preventDefault()
-    console.log(event)
-    // this.socket.emit('USER:LOGIN', this.state.profile)
-    // this.setState({
-    //   profile: {
-    //     name: this.
-    //     loggedIn: true
-    //   }
-    //   connected: false
-    // })
-    // this.setState({
-    //   ...this.state,
-    //   profile: {
-    //     loggedIn: true
-    //   }
-    // })
+    this.socket.emit('USER:LOGIN', this.state.profile)
+    this.setState({
+      profile: {
+        loggedIn: true
+      },
+      connected: true
+    })
   }
 
   public render (): JSX.Element {
@@ -59,7 +48,7 @@ class ChatConnector extends Component<IChatConnectorProps, IChatConnectorState> 
       return (
         <form onSubmit={this.handleLogin}>
           <input id="name" name="name" type="text" />
-          <button>Login</button>
+          <button>Join</button>
         </form>
       )
     }
