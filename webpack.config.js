@@ -1,4 +1,4 @@
-const ExtractCSSPlugin = require("extract-css-chunks-webpack-plugin");
+const ExtractCssChunksPlugin = require("extract-css-chunks-webpack-plugin");
 const autoprefixer = require("autoprefixer");
 
 module.exports = {
@@ -6,54 +6,13 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(css|scss)(\?.+)?$/,
+        test: /\.scss$/,
         use: [
-          {
-            loader: ExtractCSSPlugin.loader,
-            options: {
-              publicPath: "/assets/",
+            "style-loader",
+            {
+                loader: "css-loader",
             },
-          },
-          {
-            loader: "css-loader",
-            options: {
-              importLoaders: 1,
-              localIdentName: "vfuk-[name]__[local]",
-              modules: true,
-              sourceMap: true,
-            },
-          },
-          {
-            loader: "postcss-loader",
-            options: {
-              ident: "postcss",
-              parser: "postcss-scss",
-              plugins: [
-                autoprefixer({
-                  browsers: [
-                    "last 2 versions",
-                    "IE >= 11",
-                    "safari >= 10",
-                  ],
-                }),
-              ],
-            },
-          },
-          {
-            loader: "sass-loader",
-            options: {
-              outputStyle: "expanded",
-            },
-          },
-          {
-            loader: "sass-resources-loader",
-            options: {
-              resources: [
-                "./node_modules/@vfuk/web-core/resources/resources.scss",
-                "./src/shared/styles/resources.scss",
-              ],
-            },
-          },
+            "sass-loader?sourceMap",
         ],
       },
       { test: /\.tsx?$/, loader: "ts-loader" },

@@ -3,7 +3,7 @@
     "lib": [
       "dom",
       "es6",
-      "es2015"
+      "es2015",
     ],
     "target": "es5",
     "moduleResolution": "node",
@@ -13,6 +13,7 @@
     "removeComments": false,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
+    "noImplicitAny": true,
     "sourceMap": true,
     "allowJs": true,
     "strict": true,
@@ -26,13 +27,14 @@
       "@server/*": ["./src/server/*"]
     }
   },
-  "compileOnSave": false,
+  "compileOnSave": true,
   "exclude": [
     "./node_modules/*",
     "./lib/*"
   ],
   "include": [
     "./config/**/*.ts",
-    "./src/**/*.ts"
+    "./src/**/*.ts",
+    "./src/index.d.ts"
   ]
 }

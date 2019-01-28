@@ -1,60 +1,51 @@
-import React, { Component, SyntheticEvent } from 'react'
+import React, { Component, BaseSyntheticEvent } from 'react'
 import IO from 'socket.io-client'
+import { Form, Button, Input } from 'antd'
+import { ICurrentUser } from '../types'
 
 interface IChatConnectorProps {
-  name: string
+  currentUser: ICurrentUser
+  connectHandler: (username: FormDataEntryValue) => void
+  logoutHandler: (username: string) => void
 }
 
-interface IChatConnectorState {
-  profile?: {
-    name?: string,
-    loggedIn: boolean
-  },
-  connected?: boolean
-}
-
-const SERVER_URL = 'http://localhost:3000'
-
-class ChatConnector extends Component<IChatConnectorProps, IChatConnectorState> {
-  public state: IChatConnectorState
-  private socket: SocketIOClient.Socket
-
-  constructor (props: IChatConnectorProps) {
-    super(props)
-    this.state = {
-      profile: {
-        name: this.props.name,
-        loggedIn: false
-      },
-      connected: false
+class ChatConnector extends Component<IChatConnectorProps, {}> {
+  public handleSubmit = (event: BaseSyntheticEvent): void => {
+    event.preventDefault()
+    const formData = new FormData(event.target)
+    const name = formData.get('name')
+    if (name) {
+      this.props.connectHandler(name)
     }
-
-    this.socket = IO(SERVER_URL)
   }
 
-  public handleLogin = (event: SyntheticEvent): void => {
+  public handleLogout = (event: BaseSyntheticEvent): void => {
     event.preventDefault()
-    this.socket.emit('USER:LOGIN', this.state.profile)
-    this.setState({
-      profile: {
-        loggedIn: true
-      },
-      connected: true
-    })
+    if (this.props.currentUser.username) {
+      this.props.logoutHandler(this.props.currentUser.username)
+    }
   }
 
   public render (): JSX.Element {
-    if (!this.state.connected) {
+    if (!this.props.currentUser.loggedIn) {
       return (
-        <form onSubmit={this.handleLogin}>
-          <input id="name" name="name" type="text" />
-          <button>Join</button>
-        </form>
+        <Form layout="inline" onSubmit={this.handleSubmit}>
+          <h2>Join the chat room</h2>
+          <Form.Item>
+            <Input id="name" name="name" type="text" placeholder="Username" />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">Join</Button>
+          </Form.Item>
+        </Form>
       )
     }
 
     return (
-      <h1>Connected</h1>
+      <Form layout="inline" onSubmit={this.handleLogout}>
+        Logged in as {this.props.currentUser.username}
+        <Button type="primary" htmlType="submit">Logout</Button>
+      </Form>
     )
   }
 }

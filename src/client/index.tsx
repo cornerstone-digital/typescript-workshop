@@ -1,13 +1,13 @@
 import App from './App'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import GlobalStylesProvider from '@vfuk/web-core/components/utilities/GlobalStylesProvider'
+import './styles/index.scss'
+
+// console.log(styles)
 
 const Wrapper = () => {
   return (
-    <GlobalStylesProvider>
-      <App />
-    </GlobalStylesProvider>
+    <App className="app" />
   )
 }
 

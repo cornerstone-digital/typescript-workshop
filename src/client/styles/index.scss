@@ -1,3 +1,30 @@
-.app {
-  color: red;
+.trigger {
+  display: inline-block;
+  font-size: 18px;
+  line-height: 64px;
+  padding: 0 24px;
+  cursor: pointer;
+  transition: color .3s;
+}
+
+.trigger:hover {
+  color: #1890ff;
+}
+
+.header {
+  background: #ffffff;
+  padding: 10px;
+  height: auto;
+}
+
+.content {
+  margin: '24px 16px';
+  padding: 24;
+  background: #ffffff;
+  min-height: 280;
+}
+
+.sidebar {
+  border-left: 1px solid darkgray;
+  background: lightgray;
 }

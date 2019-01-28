@@ -5,12 +5,15 @@ const font = require("./loaders/font");
 const javascript = require("./loaders/javascript");
 const svg = require("./loaders/svg");
 const video = require("./loaders/video");
+const typescript = require("./loaders/typescript");
+
 const abs = file => resolve(__dirname, "../../", file);
 
 module.exports = {
   stats: "none",
 
   resolve: {
+    extensions: [".ts", ".tsx", ".js"],
     modules: [
       "node_modules",
       abs("src/styles"),
@@ -18,8 +21,7 @@ module.exports = {
   },
 
   entry: [
-    "babel-regenerator-runtime",
-    abs("src/index.js"),
+    abs("src/client/index.tsx"),
   ],
 
   output: {
@@ -31,6 +33,7 @@ module.exports = {
   module: {
     rules: [
       javascript.base,
+      typescript,
       svg,
       video,
       image,

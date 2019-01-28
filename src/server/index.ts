@@ -7,13 +7,18 @@ const app: Application = express()
 const server: Server = new Server(app)
 const io: SocketIO.Server = SocketIO(server)
 
-let userCount: number = 0
+let members: string[] = []
 
 io.on('connection', (socket: SocketIO.Socket): void => {
-  socket.on('USER:LOGIN', (message) => {
-    userCount++
-    io.emit('USER:CONNECTED', `${message.name} has connected`)
-    console.log(`${message.name} has connected`)
+  socket.on('USER:LOGIN', (username) => {
+    members = members.filter((member) => {
+      return member !== username
+    })
+
+    members.push(username)
+
+    io.emit('USER:CONNECTED', `${username} has connected`)
+    io.emit('MEMBERS:UPDATED', members)
   })
 })
 
