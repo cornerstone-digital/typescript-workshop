@@ -23,9 +23,14 @@ client.connect(() => {
 
 io.on('connection', (socket: SocketIO.Socket): void => {
   const collection = app.get('db').collection('members')
-  socket.on('USER:LOGIN', (username) => {
-    const memberList = collection.find({ username })
-    console.log(memberList)
+  socket.on('USER:LOGIN', async (username) => {
+    const exists = await collection.find({ username })
+
+    if (!exists.length) {
+      console.log('Not existing')
+    } else {
+      console.log('Already Exists')
+    }
 
     members.push(username)
     io.emit('USER:CONNECTED', `${username} has connected`)
