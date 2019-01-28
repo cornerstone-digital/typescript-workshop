@@ -8,7 +8,7 @@
   "scripts": {
     "build": "webpack -p",
     "start": "webpack-dev-server -d --content-base ./public --hot --config=./webpack.config.js",
-    "start:server": "ts-node -r tsconfig-paths/register ./src/server/index.ts"
+    "start:server": "nodemon src/server/*.ts --exec ts-node -r tsconfig-paths/register ./src/server/index.ts"
   },
   "devDependencies": {
     "@babel/cli": "7.2.3",
