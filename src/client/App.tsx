@@ -79,7 +79,6 @@ class App extends Component<IAppProps, IAppState> {
   }
 
   public renderMembers () {
-    // console.log(this.state.members)
     return this.state.members.map((username, index) => {
       return (
         <li key={index}>
