@@ -2,6 +2,7 @@ import express, { Application } from 'express'
 import { Server } from 'http'
 import SocketIO from 'socket.io'
 import { MongoClient } from 'mongodb'
+// import Mongoose from 'mongoose'
 
 const port: number = 3000
 const app: Application = express()
@@ -16,25 +17,39 @@ const client = new MongoClient(url)
 
 let members: string[] = []
 
+const getMembers = () => {
+  return [
+    'Martin',
+    'Lance',
+    'Billy',
+    'Bla',
+    'Someone Else'
+  ]
+}
+
 client.connect(() => {
   const db = client.db('typescript-workshop')
   app.set('db', db)
-})
+  io.on('connection', (socket: SocketIO.Socket): void => {
+    const collection = app.get('db').collection('members')
+    socket.on('USER:LOGIN', async (username) => {
+      // const exists = collection.find({ username })
 
-io.on('connection', (socket: SocketIO.Socket): void => {
-  const collection = app.get('db').collection('members')
-  socket.on('USER:LOGIN', async (username) => {
-    const exists = await collection.find({ username })
+      // console.log('Exists', exists)
 
-    if (!exists.length) {
-      console.log('Not existing')
-    } else {
-      console.log('Already Exists')
-    }
+      // if (!exists.length) {
+      //   console.log('Not existing')
+      //   await collection.insertOne({
+      //     username
+      //   })
+      // } else {
+      //   console.log('Already Exists')
+      // }
 
-    members.push(username)
-    io.emit('USER:CONNECTED', `${username} has connected`)
-    io.emit('MEMBERS:UPDATED', members)
+      members.push(username)
+      io.emit('USER:CONNECTED', `${username} has connected`)
+      io.emit('MEMBERS:UPDATED', getMembers())
+    })
   })
 })
 
