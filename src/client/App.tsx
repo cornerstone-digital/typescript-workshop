@@ -54,7 +54,6 @@ class App extends Component<IAppProps, IAppState> {
     this.socket.on('USER:CONNECTED', (message: string) => {
       const messages: string[] = this.state.chat
       messages.push(message)
-      console.log(messages)
       this.setState({
         chat: messages
       })
