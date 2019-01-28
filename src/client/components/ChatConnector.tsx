@@ -1,6 +1,5 @@
 import React, { Component, BaseSyntheticEvent } from 'react'
-import IO from 'socket.io-client'
-import { Form, Button, Input } from 'antd'
+import { Form, Button, Input, Row, Col } from 'antd'
 import { ICurrentUser } from '../types'
 
 interface IChatConnectorProps {
@@ -43,8 +42,10 @@ class ChatConnector extends Component<IChatConnectorProps, {}> {
 
     return (
       <Form layout="inline" onSubmit={this.handleLogout}>
-        Logged in as {this.props.currentUser.username}
-        <Button type="primary" htmlType="submit">Logout</Button>
+        <Row type="flex" justify="space-around" align="middle" gutter={10}>
+          <Col><p>Logged in as {this.props.currentUser.username}</p></Col>
+          <Col><Button type="primary" htmlType="submit">Logout</Button></Col>
+        </Row>
       </Form>
     )
   }

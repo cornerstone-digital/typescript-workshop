@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import IO from 'socket.io-client'
 import ChatConnector from './components/ChatConnector'
 import {
-  Layout, Icon, Menu, Row, Button, Drawer
+  Layout, Icon, Row, Button, Drawer
 } from 'antd'
 
 import { ICurrentUser } from './types'
