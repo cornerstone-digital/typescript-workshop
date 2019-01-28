@@ -14,8 +14,6 @@ const url = 'mongodb://typescript:workshop1@ds159184.mlab.com:59184/typescript-w
 // Create a new MongoClient
 const client = new MongoClient(url)
 
-// let members: string[] = []
-
 const getMembers = () => {
   return [
     'Martin',
@@ -32,7 +30,7 @@ client.connect(() => {
   io.on('connection', (socket: SocketIO.Socket): void => {
     const collection = app.get('db').collection('members')
     socket.on('USER:LOGIN', async (username) => {
-      const members = getMembers()
+      const members: string[] = getMembers()
       members.push(username)
       io.emit('USER:CONNECTED', `${username} has connected`)
       io.emit('MEMBERS:UPDATED', members)

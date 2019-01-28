@@ -12,7 +12,8 @@ const { Content, Header } = Layout
 interface IAppState {
   sideBarVisible: boolean,
   members: string[],
-  currentUser: ICurrentUser
+  currentUser: ICurrentUser,
+  chat: string[]
 }
 
 interface IAppProps extends React.HTMLAttributes<HTMLDivElement> { }
@@ -21,11 +22,12 @@ const SERVER_URL = 'http://localhost:3000'
 
 class App extends Component<IAppProps, IAppState> {
   public state: IAppState = {
-    sideBarVisible: false,
+    sideBarVisible: true,
     members: [],
     currentUser: {
       loggedIn: false
-    }
+    },
+    chat: []
   }
 
   private socket: SocketIOClient.Socket
@@ -46,6 +48,15 @@ class App extends Component<IAppProps, IAppState> {
     this.socket.on('MEMBERS:UPDATED', (members: string[]) => {
       this.setState({
         members
+      })
+    })
+
+    this.socket.on('USER:CONNECTED', (message: string) => {
+      const messages: string[] = this.state.chat
+      messages.push(message)
+      console.log(messages)
+      this.setState({
+        chat: messages
       })
     })
   }
@@ -94,6 +105,12 @@ class App extends Component<IAppProps, IAppState> {
     })
   }
 
+  public renderChat (): JSX.Element[] {
+    return this.state.chat.map((message) => {
+      return <p>{message}</p>
+    })
+  }
+
   public render (): JSX.Element {
     return (
       <div className="app">
@@ -117,6 +134,9 @@ class App extends Component<IAppProps, IAppState> {
                   connectHandler={this.handleConnect}
                   logoutHandler={this.handleLogout}
                 />
+              </Row>
+              <Row>
+                {this.renderChat()}
               </Row>
             </Content>
           </Layout>
