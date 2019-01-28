@@ -7,7 +7,7 @@ import {
 
 import { ICurrentUser } from './types'
 
-const { Content, Header, Sider } = Layout
+const { Content, Header } = Layout
 
 interface IAppState {
   sideBarVisible: boolean,
